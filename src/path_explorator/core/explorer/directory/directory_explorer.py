@@ -1,5 +1,5 @@
 from pathlib import Path
-from path_explorator.exceptions import EntityDoesNotExists, NotADir
+from path_explorator.exceptions import EntityDoesNotExists, EntityIsNotADir
 from path_explorator.core.explorer.path import PathCreator
 
 class DirectoryExplorer:
@@ -29,7 +29,7 @@ class DirectoryExplorer:
         if not path.exists():
             raise EntityDoesNotExists(dirpath)
         if not path.is_dir():
-            raise NotADir(dirpath)
+            raise EntityIsNotADir(dirpath)
         filenames = [fname for fname in path.iterdir() if fname.is_file()]
         return filenames
 
@@ -45,7 +45,7 @@ class DirectoryExplorer:
         if not path.exists():
             raise EntityDoesNotExists(dirpath)
         if not path.is_dir():
-            raise NotADir(dirpath)
+            raise EntityIsNotADir(dirpath)
         entities_names = list(path.iterdir())
         return entities_names
 
@@ -107,6 +107,6 @@ class DirectoryExplorer:
             raise TypeError(f'path arg must be str, not {type(path)}')
         entity_path = Path(path)
         return entity_path.name
-]
+
 
 

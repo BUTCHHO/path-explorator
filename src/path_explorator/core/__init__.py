@@ -1,3 +1,3 @@
-import explorer
+from .explorer import DirectoryExplorer, DirectoryActor, PathReader, PathCreator
 
-__all__ = ['explorer']
+__all__ = ['DirectoryActor', 'DirectoryExplorer', 'PathCreator', 'PathReader']

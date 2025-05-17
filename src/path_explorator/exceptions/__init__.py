@@ -1,3 +1,3 @@
-import entity_exc
+from .entity_exc import EntityDoesNotExists, EntityIsNotADir
 
-__all__ = ['entity_exc']
+__all__ = ['EntityDoesNotExists', 'EntityIsNotADir']

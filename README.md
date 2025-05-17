@@ -6,7 +6,6 @@ Every class always takes STR in every method and always returns STR
 
 ## Quick Start
 ```python
-from path_explorator import PathExplorer
-explorer = PathExplorer("your/path")
+#coming soon
 ```
 ДОПИСАТЬ НАДО !!!
