@@ -1,6 +1,7 @@
 from pathlib import Path
-from path_explorator.exceptions import EntityDoesNotExists, EntityIsNotADir
-from path_explorator.core.explorer.path import PathCreator
+from src.path_explorator.exceptions import EntityDoesNotExists, EntityIsNotADir
+from src.path_explorator.core.explorer.path import PathCreator
+from src.path_explorator.utils import cut_path
 
 class DirectoryExplorer:
     def __init__(self, root_dir_abs_path: str):
@@ -30,7 +31,7 @@ class DirectoryExplorer:
             raise EntityDoesNotExists(dirpath)
         if not path.is_dir():
             raise EntityIsNotADir(dirpath)
-        filenames = [fname for fname in path.iterdir() if fname.is_file()]
+        filenames = [cut_path(str(fname), str(self.root_dir)) for fname in path.iterdir() if fname.is_file()]
         return filenames
 
     def get_all_entitynames_in_dir(self, dirpath: str):
@@ -46,41 +47,8 @@ class DirectoryExplorer:
             raise EntityDoesNotExists(dirpath)
         if not path.is_dir():
             raise EntityIsNotADir(dirpath)
-        entities_names = list(path.iterdir())
+        entities_names = [cut_path(str(entity), str(self.root_dir)) for entity in path.iterdir()]
         return entities_names
-
-    def is_exists(self, path: str) -> bool:
-        """
-        Checks if specified path exists
-        :param path: path to the entity checking
-        :return: exists or not True or False
-        """
-        if not isinstance(path, str):
-            raise TypeError(f'path arg must be str, not {type(path)}')
-        entity = Path(path)
-        return entity.exists()
-    
-    def is_file(self, path:str) -> bool:
-        """
-        Checks if specified entity is FILE
-        :param path: path to entity
-        :return: file or not
-        """
-        if not isinstance(path, str):
-            raise TypeError(f'path arg must be str, not {type(path)}')
-        entity = Path(path)
-        return entity.is_file()
-        
-    def is_dir(self, path:str) -> bool:
-        """
-        Checks if specified entity is DIRECTORY/FOLDER
-        :param path: path to entity
-        :return: dir or not
-        """
-        if not isinstance(path, str):
-            raise TypeError(f'path arg must be str, not {type(path)}')
-        entity = Path(path)
-        return entity.is_dir()
 
     def find_entities_path(self, searching_in: str, pattern: str ) -> list[str]:
         """
@@ -94,9 +62,42 @@ class DirectoryExplorer:
         if not isinstance(pattern, str):
             raise  TypeError(f'pattern arg must be str, not {type(pattern)}')
         searchable_dir = Path(self.root_dir, searching_in)
-        return list(str(searchable_dir.rglob(pattern)))
+        paths = [cut_path(str(path), str(self.root_dir)) for path in searchable_dir.rglob(pattern)]
+        return paths
 
+    def is_exists(self, path: str) -> bool:
+        """
+        Checks if specified path exists
+        :param path: path to the entity checking
+        :return: exists or not True or False
+        """
+        if not isinstance(path, str):
+            raise TypeError(f'path arg must be str, not {type(path)}')
+        entity = Path(self.root_dir, path)
+        return entity.exists()
     
+    def is_file(self, path:str) -> bool:
+        """
+        Checks if specified entity is FILE
+        :param path: path to entity
+        :return: file or not
+        """
+        if not isinstance(path, str):
+            raise TypeError(f'path arg must be str, not {type(path)}')
+        entity = Path(self.root_dir, path)
+        return entity.is_file()
+        
+    def is_dir(self, path:str) -> bool:
+        """
+        Checks if specified entity is DIRECTORY/FOLDER
+        :param path: path to entity
+        :return: dir or not
+        """
+        if not isinstance(path, str):
+            raise TypeError(f'path arg must be str, not {type(path)}')
+        entity = Path(self.root_dir, path)
+        return entity.is_dir()
+
     def get_name(self, path: str) -> str:
         """
         Get name of entity from strlike path
@@ -105,7 +106,7 @@ class DirectoryExplorer:
         """
         if not isinstance(path, str):
             raise TypeError(f'path arg must be str, not {type(path)}')
-        entity_path = Path(path)
+        entity_path = Path(self.root_dir, path)
         return entity_path.name
 
 
