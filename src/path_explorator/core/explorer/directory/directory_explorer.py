@@ -1,7 +1,7 @@
 from pathlib import Path
-from src.path_explorator.exceptions import EntityDoesNotExists, EntityIsNotADir
-from src.path_explorator.core.explorer.path import PathCreator
-from src.path_explorator.utils import cut_path
+from path_explorator.exceptions import EntityDoesNotExists, EntityIsNotADir
+from path_explorator.core.explorer.path import PathCreator
+from path_explorator.utils import cut_path
 
 class DirectoryExplorer:
     def __init__(self, root_dir_abs_path: str):
