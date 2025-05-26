@@ -1,4 +1,6 @@
 from pathlib import Path
+from aiofiles import open as aio_open
+
 class DirectoryActor:
 
     def __init__(self, root_dir_abs_path: str):
@@ -36,3 +38,14 @@ class DirectoryActor:
             raise TypeError(f'name argument must be str, not {type(path)}')
         path_to_future_file = Path(self.root_dir, path, name)
         path_to_future_file.touch(exist_ok=True)
+
+    async def async_write_from_fastapi_uploadfile_to_file(self, source_file, output_file_path):
+        """
+        special method for fastapi uploading file to hard disk
+        :param source_file: fastapi UploadFile object
+        :param output_file_path: path where an actual file will be saved on hard disk
+        :return: None
+        """
+        async with aio_open(output_file_path, 'wb') as output_file:
+            while content := await source_file.read(1024):
+                await output_file.write(content)
