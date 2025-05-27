@@ -1,6 +1,7 @@
-from .core import DirectoryExplorer, DirectoryActor, PathReader, PathCreator
+from .core import DirectoryExplorer, DirectoryActor, PathReader, PathCreator, PathValidator
 from .exceptions import EntityDoesNotExists, EntityIsNotADir, PathGoesBeyondLimits
-from .utils import cut_path, raise_if_path_goes_beyond_limits
+from .utils import cut_path
 __all__ = ['DirectoryExplorer', 'DirectoryActor', 'EntityDoesNotExists', 'EntityIsNotADir', "PathReader", 'PathCreator',
            'PathGoesBeyondLimits',
-           'raise_if_path_goes_beyond_limits','cut_path']
+           'cut_path',
+           'PathValidator']

@@ -1,2 +1,1 @@
 from .path_cutter import cut_path
-from .path_validator import raise_if_path_goes_beyond_limits
