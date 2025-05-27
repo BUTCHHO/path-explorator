@@ -1,4 +1,4 @@
-from src.path_explorator_src.core import DirectoryActor
+from src.path_explorator.core import DirectoryActor
 
 
 rdir = '/home/butcho/пайтон проекты/genetics'

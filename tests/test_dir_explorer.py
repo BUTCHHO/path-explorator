@@ -1,9 +1,7 @@
 import unittest
 from pathlib import Path
-from src.path_explorator_src import DirectoryExplorer
-
-def get_folder_test_path():
-    return Path(Path.cwd().parent / Path('folder_tests'))
+from src.path_explorator import DirectoryExplorer
+from .utils import get_folder_test_path
 
 class TestDirectoryExplorer(unittest.TestCase):
     def setUp(self):
