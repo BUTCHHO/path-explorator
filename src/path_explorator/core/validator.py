@@ -21,3 +21,39 @@ class PathValidator:
         if limit_path in requesting_path.parents or limit_path == requesting_path:
             return False
         return True
+
+
+    def is_exists(self, path: str) -> bool:
+        """
+        Checks if specified path exists
+        :param path: path to the entity checking
+        :return: exists or not True or False
+        """
+        if not isinstance(path, str):
+            raise TypeError(f'path arg must be str, not {type(path)}')
+        entity = Path(self.root_dir, path)
+        return entity.exists()
+
+
+    def is_file(self, path: str) -> bool:
+        """
+        Checks if specified entity is FILE
+        :param path: path to entity
+        :return: file or not
+        """
+        if not isinstance(path, str):
+            raise TypeError(f'path arg must be str, not {type(path)}')
+        entity = Path(self.root_dir, path)
+        return entity.is_file()
+
+
+    def is_dir(self, path: str) -> bool:
+        """
+        Checks if specified entity is DIRECTORY/FOLDER
+        :param path: path to entity
+        :return: dir or not
+        """
+        if not isinstance(path, str):
+            raise TypeError(f'path arg must be str, not {type(path)}')
+        entity = Path(self.root_dir, path)
+        return entity.is_dir()
