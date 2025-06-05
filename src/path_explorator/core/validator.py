@@ -1,6 +1,7 @@
 from ..exceptions import EntityDoesNotExists
 
 from pathlib import Path
+import os
 
 
 class PathValidator:
@@ -20,7 +21,6 @@ class PathValidator:
         if self.root_dir in requesting_path.parents or self.root_dir == requesting_path:
             return False
         return True
-
 
     def is_exists(self, path: str) -> bool:
         """
