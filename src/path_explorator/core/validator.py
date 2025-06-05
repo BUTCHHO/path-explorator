@@ -1,7 +1,4 @@
-from ..exceptions import EntityDoesNotExists
-
 from pathlib import Path
-import os
 
 
 class PathValidator:
@@ -9,18 +6,30 @@ class PathValidator:
     def __init__(self, root_dir):
         self.root_dir = Path(root_dir)
 
-    def clear_path(self, path: str):
-        if not isinstance(path, str):
-            raise TypeError(f'path arg must be str, not {type(path)}')
-        return Path(path).resolve().__str__()
+    def does_contain_uplinks(self, path:str | Path):
+        path = Path(path)
+        if ('..', '.', './') in path.parts:
+            return True
+        return False
+
+    def does_contain_symlinks_and_uplinks(self, path:str):
+        path = Path(path)
+        if path.is_symlink() and self.does_contain_uplinks(path):
+            return True
+        return False
+
 
     def is_goes_beyond_limits(self, requesting_path: str):
         if not isinstance(requesting_path, str):
             raise TypeError(f'requesting path arg must be str, not {type(requesting_path)}')
-        requesting_path = Path(self.clear_path(requesting_path))
-        if self.root_dir in requesting_path.parents or self.root_dir == requesting_path:
-            return False
-        return True
+        requesting_path = Path(requesting_path).resolve()
+        if not requesting_path.is_relative_to(self.root_dir):
+            return True
+        return False
+
+    @property
+    def root(self):
+        return self.root_dir.__str__()
 
     def is_exists(self, path: str) -> bool:
         """
