@@ -19,17 +19,20 @@ class PathValidator:
         return False
 
 
-    def is_goes_beyond_limits(self, requesting_path: str):
-        if not isinstance(requesting_path, str):
-            raise TypeError(f'requesting path arg must be str, not {type(requesting_path)}')
-        return not self.is_path_rel_to_another_path(requesting_path, self.root_dir)
+    def is_goes_beyond_limits(self, requesting_path: str | None):
+        return not self.is_path_rel_to_another_path(requesting_path, self.root_dir.__str__())
 
-    def is_path_rel_to_another_path(self, relating_path: str | Path, relative_to_path: str | Path):
-        relating = Path(relating_path).resolve()
-        relative_to = Path(relative_to_path)
-        if not relating.is_relative_to(relative_to):
-            return False
-        return True
+
+    def is_path_rel_to_another_path(self, path: str | None, relative_to_path: str | None):
+        if path is None:
+            path = ''
+        if relative_to_path is None:
+            relative_to_path = ''
+        path = Path(path)
+        relative_to_path = Path(relative_to_path)
+        if path.is_relative_to(relative_to_path):
+           return True
+        return False
 
     @property
     def root(self):

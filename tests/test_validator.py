@@ -17,4 +17,12 @@ class TestValidator(unittest.TestCase):
         self.assertTrue(is_safe)
         self.assertTrue(is_unsafe)
 
-
+    def test_is_path_rel_to_another_path(self):
+        limit_path = '/home/butcho/python projects'
+        rel_path = '/home/butcho/python projects/media_storage'
+        unrel = '/home/butcho'
+        unrel2 = '/home/butcho/Загрузки'
+        is_rel = self.validator.is_path_rel_to_another_path(rel_path, limit_path)
+        is_unrel = not self.validator.is_path_rel_to_another_path(unrel, limit_path)
+        is_unrel2 = not self.validator.is_path_rel_to_another_path(unrel2, limit_path)
+        assert is_rel == is_unrel == is_unrel2 == True
